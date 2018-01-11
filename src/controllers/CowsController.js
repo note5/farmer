@@ -2,7 +2,7 @@ const {Cows} = require('../models')
 const{Milk} = require('../models')
 const{Farmer} =require('../models')
 const{Reproduction} = require('../models')
-const{Feeding} =require('../models')
+const{Feeding} =require('../models') 
 
 
 module.exports  = {
@@ -27,18 +27,17 @@ module.exports  = {
 			
 			const cow =  await Cows.findById(req.params.id,{
 			  
-			   forEach(cow){
-			   	include:[
-			 	 	{
-			 	 		model: Milk
-			 	 	}
-			 	 ]
-
-			   },
-			 	 
+			  
 			 	 include:[
 			 	 	{
 			 	 		model: Reproduction
+			 	 	},
+
+			 	 	{
+			 	 		model:Milk
+			 	 	},
+			 	 	{
+			 	 		model:Feeding
 			 	 	}
 			 	 ]
 			 
@@ -65,12 +64,14 @@ module.exports  = {
 async remove (req,res){
 	try{
 
-		
+		res.send(req.params.id)
 		const cow = await Cows.destroy({
 			where:{
-				id:req.params.CowId
+				id:req.params.id
 			}
 		})
+
+		res.send("deleted")
 		
 		}
 

@@ -4,6 +4,7 @@ const CowsController = require('../controllers/CowsController')
 const MilkController = require('../controllers/MilkController')
 const AiController = require('../controllers/AiController')
 const FarmersController = require('../controllers/FarmersController')
+const FeedingController = require('../controllers/FeedingController')
 
 module.exports  = (app) =>{
 	
@@ -20,16 +21,21 @@ module.exports  = (app) =>{
 
     //Milk routes
     app.post('/addMilk', MilkController.post)
-    app.get('/myMilk:id', MilkController.index)
+    app.get('/myMilk:id', MilkController.show)
 
     //AI details routes
     app.post('/addAI', AiController.post)
-    app.get('/Ai:id', AiController.index)
+    app.get('/Ai:id', AiController.show)
 
     //Farmers routes
     app.post('/addFarmer', FarmersController.post)
     app.get('/getFarmer/:id', FarmersController.show)
     app.delete('/farmer/delete/:id',FarmersController.remove)
+
+    //Feeding routes
+
+    app.post('/addFeed', FeedingController.post)
+    app.post('/getFeed/:id', FeedingController.show)
 
 
 

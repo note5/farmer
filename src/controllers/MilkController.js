@@ -15,7 +15,7 @@ module.exports  = {
 		} 
 	},
 
-	async index(req, res){
+	async show(req, res){
 		try{
 			
 			const milk =  await Milk.findById(req.params.id,{

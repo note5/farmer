@@ -2,6 +2,7 @@ const {Reproduction} = require('../models')
 
 module.exports  = {
 
+	// create AI record
 	async post (req, res) {
 		try{
 			const insemination =  await Reproduction.create(req.body)
@@ -14,8 +15,8 @@ module.exports  = {
 		})
 		} 
 	},
-
-	async index(req, res){
+//get Specific AI record
+	async show(req, res){
 		try{
 			
 			const insemination =  await Reproduction.findById(req.params.id,{

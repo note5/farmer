@@ -1,6 +1,8 @@
 const {User} = require('../models')
 const {Cows} = require('../models')
 const {Milk} = require('../models')
+const {Feeding} =require('../models')
+const {Reproduction} = require('../models')
 const jwt = require('jsonwebtoken')
 const{Farmer} =require('../models')
 const config = require('../config/config')
@@ -81,7 +83,15 @@ module.exports  ={
 			 	 		model: Cows,
 			 	 		include:[{
 			 	 			model:Milk
-			 	 		}]
+			 	 		},
+			 	 		{
+			 	 			model:Feeding
+			 	 		},
+			 	 		{
+			 	 			model:Reproduction
+			 	 		}
+
+			 	 		]
 			 	 	}
 			 	 ]
 			 }
@@ -96,7 +106,9 @@ module.exports  ={
 			})
 		}
 		else{
-			res.send(user)
+			res.send({
+				data:user
+			})
 		}
 
 		}
