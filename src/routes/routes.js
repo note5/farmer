@@ -5,6 +5,9 @@ const MilkController = require('../controllers/MilkController')
 const AiController = require('../controllers/AiController')
 const FarmersController = require('../controllers/FarmersController')
 const FeedingController = require('../controllers/FeedingController')
+const VaccinationsController = require('../controllers/VaccinationsController')
+const TreatmentsController = require('../controllers/TreatmentsController')
+
 
 module.exports  = (app) =>{
 	
@@ -37,6 +40,13 @@ module.exports  = (app) =>{
     app.post('/addFeed', FeedingController.post)
     app.post('/getFeed/:id', FeedingController.show)
 
+    //Vaccination routes
+    app.post('/addVaccination', VaccinationsController.post)
+    app.post('/getVaccination/:id', VaccinationsController.show)
+
+    //Treatments routes
+    app.post('/addTreatment', TreatmentsController.post)
+    app.post('/getTreatment/:id', TreatmentsController.show)
 
 
 }  

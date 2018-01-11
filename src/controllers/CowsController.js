@@ -50,7 +50,45 @@ module.exports  = {
 			})
 		}
 		else{
-			res.send(cow)
+			//res.send(cow)
+			
+			let i 
+			let total_price=[]
+			let total
+
+			cowss= JSON.parse(JSON.stringify(cow))
+			//cowss= Object.assign({}, cow)
+			for(i in cowss.Milk){
+				let price = cowss.Milk[i].dayPrice * cowss.Milk[i].amount
+				//prices[`day ${parseInt(i)+1}`] = price
+				cowss.Milk[i].totals = price
+
+				total_price.push(price)
+				
+			}
+            
+             //Add milk prices for each day
+			total = total_price.reduce(function(acc, val)
+			 { 
+			 	return acc + val
+			 })
+			
+			/*
+			to create an object with key and value:
+			let i
+					let prices={} //create the object
+					for(i in cow.Milk){
+						let price = cow.Milk[i].dayPrice * cow.Milk[i].amount
+						prices[`day ${parseInt(i)+1}`] = price //assign the value to the key
+						
+					}
+			*/			
+
+			res.send({
+				cow:cowss,
+		        cumulated_price:total				
+			})
+			
 		}
 
 		}

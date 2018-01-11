@@ -107,6 +107,7 @@ module.exports  ={
 		}
 		else{
 			res.send({
+				
 				data:user
 			})
 		}

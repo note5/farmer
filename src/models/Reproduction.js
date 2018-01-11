@@ -3,7 +3,7 @@ const Reproduction =sequelize.define('Reproduction', {
 	
 	cowName:DataTypes.STRING,
 	ear_tag_no:DataTypes.INTEGER,
-	AI_date:DataTypes.DATE,
+	AI_date:DataTypes.DATEONLY,
 
 	last_calf:{
 
@@ -16,7 +16,9 @@ const Reproduction =sequelize.define('Reproduction', {
 	sire: DataTypes.STRING,
 	VetName: DataTypes.STRING,
 	VetCode: DataTypes.INTEGER,
-	Last_Calving_date:DataTypes.DATE
+	straw_img:DataTypes.STRING,
+	leaflet_img:DataTypes.STRING,
+	Last_Calving_date:DataTypes.DATEONLY
 
 
 
