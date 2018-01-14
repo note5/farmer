@@ -6,6 +6,8 @@ const {Reproduction} = require('../models')
 const jwt = require('jsonwebtoken')
 const{Farmer} =require('../models')
 const config = require('../config/config')
+const{Treatments} =require('../models') 
+const{Vaccinations} =require('../models') 
 
 // JWT helper
 function jwtSignUser(user) {
@@ -89,6 +91,12 @@ module.exports  ={
 			 	 		},
 			 	 		{
 			 	 			model:Reproduction
+			 	 		},
+			 	 		{
+			 	 			model:Treatments
+			 	 		},
+			 	 		{
+			 	 			model:Vaccinations
 			 	 		}
 
 			 	 		]
@@ -120,14 +128,36 @@ module.exports  ={
 		})
 	}
 },
+async edit (req, res) {
+		try{
+			const vaccination =  await 	Vaccinations.update(req.body,{
+				where:{
+					id:req.params.id
+				}
+			})
 
-	async removeUser (req, res){
+			res.send({
+				message:"Successfully updated the entry"
+			})
+		}
+		catch(err){
+			console.log(err)
+		res.status(500).send({
+			error: 'Something went wrong while updating vaccination record'
+		})
+		} 
+	},
+
+	async remove (req, res){
 		try{
 			const user = await User.destroy({
 			where:{
 				id:req.params.id
 			}
 		})
+			res.status(200).send({
+				success:"record deleted!"
+			})
 		}
 		catch(err){
 			

@@ -3,7 +3,8 @@ const{Milk} = require('../models')
 const{Farmer} =require('../models')
 const{Reproduction} = require('../models')
 const{Feeding} =require('../models') 
-
+const{Treatments} =require('../models') 
+const{Vaccinations} =require('../models') 
 
 module.exports  = {
 
@@ -12,7 +13,7 @@ module.exports  = {
 			
 			console.log(req.body)
 			const cow =  await Cows.create(req.body)
-			res.send(cow.toJSON())
+			
 		}
 		catch(err){
 			console.log(err)
@@ -38,6 +39,13 @@ module.exports  = {
 			 	 	},
 			 	 	{
 			 	 		model:Feeding
+			 	 	},
+			 	 	{
+			 	 		model: Treatments
+
+			 	 	},
+			 	 	{
+			 	 		model:Vaccinations
 			 	 	}
 			 	 ]
 			 
@@ -99,6 +107,25 @@ module.exports  = {
 		})
 	}
 },
+async edit (req, res) {
+		try{
+			const cow =  await 	Cows.update(req.body,{
+				where:{
+					id:req.params.id
+				}
+			})
+
+			res.send({
+				message:"Successfully updated the entry"
+			})
+		}
+		catch(err){
+			console.log(err)
+		res.status(500).send({
+			error: 'Something went wrong while updating vaccination record'
+		})
+		} 
+	},
 async remove (req,res){
 	try{
 

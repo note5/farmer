@@ -56,6 +56,25 @@ module.exports  = {
 		})
 	}
 },
+async edit (req, res) {
+		try{
+			const farmer =  await 	Farmer.update(req.body,{
+				where:{
+					id:req.params.id
+				}
+			})
+
+			res.send({
+				message:"Successfully updated the entry"
+			})
+		}
+		catch(err){
+			console.log(err)
+		res.status(500).send({
+			error: 'Something went wrong while updating vaccination record'
+		})
+		} 
+	},
 async remove (req,res){
 	try{
 
@@ -65,6 +84,9 @@ async remove (req,res){
 				id:req.params.id
 			}
 		})
+		res.status(200).send({
+				success:"record deleted!"
+			})
 		
 		}
 
