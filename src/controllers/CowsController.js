@@ -5,16 +5,39 @@ const{Reproduction} = require('../models')
 const{Feeding} =require('../models') 
 const{Treatments} =require('../models') 
 const{Vaccinations} =require('../models') 
+const multer = require('multer')
+const fs = require('fs')
+
 
 module.exports  = {
 
 	async post (req, res) {
+
+
 		try{
-			
-			console.log(req.body)
-			const cow =  await Cows.create(req.body)
-			
+
+		   if(req.file !=undefined){
+
+		   		const cow =  await Cows.create(
+				
+				{ name: req.body.name,
+				  breed: req.body.breed,
+				  age: req.body.age,
+				  weight:req.body.weight,
+				  FarmerId: req.body.FarmerId,
+				  state: req.body.state,
+				  image_path: "localhost:8090/"+req.file.path
+				}
+			)
+			res.send('Successfully added record of cow '+ req.body.name)
+
+		   }
+		   else{
+		   	res.send("ensure your file is an image of jpeg or png format and it is under 5mb")
+
+		   }   
 		}
+
 		catch(err){
 			console.log(err)
 		res.status(500).send({
@@ -23,7 +46,7 @@ module.exports  = {
 		} 
 	},
 
-	async show(req, res){
+	async show(req, res,next){
 		try{
 			
 			const cow =  await Cows.findById(req.params.id,{
@@ -76,10 +99,16 @@ module.exports  = {
 			}
             
              //Add milk prices for each day
-			total = total_price.reduce(function(acc, val)
+            if(total_price.length > 0){
+            	total = total_price.reduce(function(acc, val)
 			 { 
 			 	return acc + val
 			 })
+            }
+            else{
+            	total = "no milk record"
+            }
+			
 			
 			/*
 			to create an object with key and value:
@@ -96,8 +125,7 @@ module.exports  = {
 				cow:cowss,
 		        cumulated_price:total				
 			})
-			
-		}
+	}
 
 		}
 		catch(err){
@@ -126,10 +154,39 @@ async edit (req, res) {
 		})
 		} 
 	},
+async upload(req,res){
+	try{
+	
+
+	}
+	catch(err){
+		console.log(err)
+
+	}
+},
+
 async remove (req,res){
 	try{
 
-		res.send(req.params.id)
+		const files = await Cows.find({
+				where:{
+					id:req.params.id
+				},
+				attributes:['image_path']
+			})
+
+		 
+		 const cow_img = (files['image_path'].substring(15,files['image_path'].length))
+			
+	    // console.log(cow_img)
+
+		fs.unlink(cow_img, (err)=>{
+					if (err) {
+						console.log(err)
+					}
+						console.log('file deleted')
+				})
+
 		const cow = await Cows.destroy({
 			where:{
 				id:req.params.id
