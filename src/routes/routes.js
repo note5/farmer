@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     },
 
     filename: (req, file,cb)=>{
-        cb(null,new Date().toISOString()+file.originalname)
+        cb(null,file.originalname+ new Date().toISOString())
     }
 })
 
@@ -41,7 +41,7 @@ const upload = multer({
     storage:storage,
  fileFilter: fileFilter,
     limits: {
-        fileSize : 1024*1024*5
+        fileSize : 1024*1024*4
     }
 })
 
@@ -57,6 +57,7 @@ module.exports  = (app) =>{
     //cow routes
     app.post('/addCow', upload.single('cow_img'),CowsController.post)
     app.get('/getCow/:id', CowsController.show)
+    app.get('/getCows/:id', CowsController.showall)
     app.get('/cow/update/:id',CowsController.edit)
     app.delete('/cow/delete/:id',CowsController.remove)
     

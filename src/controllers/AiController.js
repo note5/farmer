@@ -9,8 +9,7 @@ module.exports  = {
 			console.log(req.files)
 			if(req.files['leaflet_img']  != undefined){
 				if(req.files['straw_img'] !=undefined){
-
-
+					
 				const insemination =  await Reproduction.create({
 					
 					cowName: req.body.cowName,

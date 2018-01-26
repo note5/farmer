@@ -14,7 +14,6 @@ module.exports  = {
 
 	async post (req, res) {
 
-			console.log(req.filErr)
 		try{
 
 		   if(!req.filErr){
@@ -136,13 +135,83 @@ module.exports  = {
 		})
 	}
 },
+
+async showall(req,res){
+	try{
+
+		const cow = await Cows.findAll({
+
+			where:{
+				FarmerId: req.params.id
+			},
+
+			  
+			 	 include:[
+			 	 	{
+			 	 		model: Reproduction
+			 	 	},
+
+			 	 	{
+			 	 		model:Milk
+			 	 	},
+			 	 	{
+			 	 		model:Feeding
+			 	 	},
+			 	 	{
+			 	 		model: Treatments
+
+			 	 	},
+			 	 	{
+			 	 		model:Vaccinations
+			 	 	}
+			 	 ]
+		})
+
+		res.send({
+				cow:cow			
+			})
+	}
+	catch(err){
+		console.log(err)
+		res.send({
+				err:"Something went wrong"			
+			})
+	}
+
+},
+
 async edit (req, res) {
 		try{
-			const cow =  await 	Cows.update(req.body,{
+			if(req.file ==undefined){
+
+				const cow =  await 	Cows.update(req.body,{
 				where:{
 					id:req.params.id
 				}
 			})
+				res.send({
+				message:"Successfully updated the entry"
+			})
+
+			}
+
+			if(!req.file==undefined && !req.filErr){
+
+				const cow =  await 	Cows.update(
+
+				{ name: req.body.name,
+				  breed: req.body.breed,
+				  age: req.body.age,
+				  weight:req.body.weight,
+				  FarmerId: req.body.FarmerId,
+				  state: req.body.state,
+				  image_path: `${cfg.HOST}:${cfg.PORT}/`+req.file.path
+				},
+
+					{where:{
+						id:re.paramd.id
+					}})
+			}
 
 			res.send({
 				message:"Successfully updated the entry"
@@ -155,17 +224,6 @@ async edit (req, res) {
 		})
 		} 
 	},
-async upload(req,res){
-	try{
-	
-
-	}
-	catch(err){
-		console.log(err)
-
-	}
-},
-
 async remove (req,res){
 	try{
 
