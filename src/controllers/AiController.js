@@ -22,8 +22,8 @@ module.exports  = {
 					sire:req.body.sire,
 					VetName:req.body.VetName,
 					VetCode:req.body.VetCode,
-					straw_img:"localhost:8090/"+req.files['straw_img'][0].path,
-	                leaflet_img:"localhost:8090/"+req.files['leaflet_img'][0].path,
+					straw_img:`${cfg.HOST}:${cfg.PORT}/`+req.files['straw_img'][0].path,
+	                leaflet_img:`${cfg.HOST}:${cfg.PORT}/`+req.files['leaflet_img'][0].path,
 					Last_Calving_date:req.body.Last_Calving_date,
 					CowId:req.body.CowId
 

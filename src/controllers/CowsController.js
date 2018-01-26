@@ -7,16 +7,17 @@ const{Treatments} =require('../models')
 const{Vaccinations} =require('../models') 
 const multer = require('multer')
 const fs = require('fs')
+const cfg = require('../config/config')
 
 
 module.exports  = {
 
 	async post (req, res) {
 
-
+			console.log(req.filErr)
 		try{
 
-		   if(req.file !=undefined){
+		   if(!req.filErr){
 
 		   		const cow =  await Cows.create(
 				
@@ -26,7 +27,7 @@ module.exports  = {
 				  weight:req.body.weight,
 				  FarmerId: req.body.FarmerId,
 				  state: req.body.state,
-				  image_path: "localhost:8090/"+req.file.path
+				  image_path: `${cfg.HOST}:${cfg.PORT}/`+req.file.path
 				}
 			)
 			res.send('Successfully added record of cow '+ req.body.name)
@@ -174,26 +175,31 @@ async remove (req,res){
 				},
 				attributes:['image_path']
 			})
+		if(files){
 
-		 
-		 const cow_img = (files['image_path'].substring(15,files['image_path'].length))
+			 const cow_img = (files['image_path'].substring(15,files['image_path'].length))
 			
 	    // console.log(cow_img)
 
-		fs.unlink(cow_img, (err)=>{
+					fs.unlink(cow_img, (err)=>{
 					if (err) {
 						console.log(err)
 					}
 						console.log('file deleted')
 				})
+				const cow = await Cows.destroy({
+					where:{
+						id:req.params.id
+					}
+				})
 
-		const cow = await Cows.destroy({
-			where:{
-				id:req.params.id
-			}
-		})
+				res.send("deleted")
+		}else{
 
-		res.send("deleted")
+				res.send("no record found")
+		}
+
+		
 		
 		}
 

@@ -30,7 +30,8 @@ const fileFilter = (req, file, cb) => {
   {
     return cb(null, true)
   } else {
-    console.log(Error)
+    
+    req.filErr  = 'file is not an image'
     return cb(null, false)
   }
 }

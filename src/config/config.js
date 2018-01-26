@@ -1,5 +1,6 @@
 module.exports = {
 	PORT:8090,
+	HOST:'localhost',
 	db:{
 		database: process.env.DB_NAME || 'farmer',
 		username: process.env.DB_USER || 'root',
